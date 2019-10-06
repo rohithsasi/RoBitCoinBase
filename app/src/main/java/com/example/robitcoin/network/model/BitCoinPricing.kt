@@ -9,7 +9,7 @@ data class BitCoinPriceing(
         @SerializedName("unit") val unit: String?,
         @SerializedName("period") val period: String?,
         @SerializedName("description") val description: String?,
-        @SerializedName("values") val valuers: List<Values>?)
+        @SerializedName("values") val valuers: List<Values>)
 
 data class Values(
         @SerializedName("x") val x: Double?,

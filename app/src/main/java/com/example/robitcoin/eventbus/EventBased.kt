@@ -1,6 +1,7 @@
-package com.nike.adapt.eventbus
+package com.example.robitcoin.eventbus
 
 import androidx.annotation.CallSuper
+
 
 interface EventBased {
     @CallSuper

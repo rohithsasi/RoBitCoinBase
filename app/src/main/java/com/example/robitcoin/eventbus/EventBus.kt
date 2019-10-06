@@ -1,11 +1,10 @@
-package com.nike.adapt.eventbus
+package com.example.robitcoin.eventbus
 
+import com.example.robitcoin.presenter.ActionResult
 import com.example.robitcoin.BuildConfig
 
-import com.nike.adapt.presenter.ActionResult
+
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Logger
-import java.util.logging.Level
 
 object EventBus {
     private val eventBus = EventBus
@@ -40,7 +39,7 @@ object EventBus {
         try {
             eventBus.register(any)
         } catch (throwable: Throwable) {
-            NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+           // NikeLogger.debug("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -48,7 +47,7 @@ object EventBus {
         try {
             eventBus.unregister(any)
         } catch (throwable: Throwable) {
-            NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+            //NikeLogger.debug("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -56,7 +55,7 @@ object EventBus {
         try {
             eventBus.post(actionResult)
         } catch (throwable: Throwable) {
-            NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+           // NikeLogger.debug("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -65,7 +64,7 @@ object EventBus {
         try {
             eventBus.post(actionResult)
         } catch (throwable: Throwable) {
-            NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+           // NikeLogger.debug("EventBus", "${throwable.message}", throwable)
         }
     }
 

@@ -1,12 +1,10 @@
 package com.example.robitcoin
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
-import android.os.Bundle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.preference.PreferenceManager
+import com.example.robitcoin.utils.StethoUtils
 import com.nike.adapt.coroutine.BackgroundCoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
@@ -38,7 +36,7 @@ class RoBitCoinApplication: Application(),LifecycleObserver {
     }
 
     private fun initStetho() {
-       // StethoUtils.init(this)
+        StethoUtils.init(this)
     }
 
     private fun initActivityCallbacks() {

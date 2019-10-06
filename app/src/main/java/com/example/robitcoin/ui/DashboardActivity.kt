@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.navigation_view.*
 import kotlinx.android.synthetic.main.view_toolbar.*
 
 
-class MainActivity : EventBasedActivity() {
+class DashboardActivity : EventBasedActivity() {
 
     var result: BitCoinPriceing? = null
     var output: List<Values> = mutableListOf()
@@ -55,7 +55,7 @@ class MainActivity : EventBasedActivity() {
         launchFragment(HomeFragment.newFragment())
 
 
-//        AdaptIdentityApi.get().getUser(object :BitCoinResultListener<Response<BitCoinPriceing>>{
+//        AdaptIdentityApi.get().getChartData(object :BitCoinResultListener<Response<BitCoinPriceing>>{
 //            override fun onSuccess(value: Response<BitCoinPriceing>) {
 //
 //                 result = value.body()!!
@@ -68,7 +68,7 @@ class MainActivity : EventBasedActivity() {
 //
 //            override fun onFailure(t: Throwable) {
 //
-//                Toast.makeText(this@MainActivity,"error",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@DashboardActivity,"error",Toast.LENGTH_SHORT).show()
 //            }
 //
 //        })
@@ -292,18 +292,15 @@ class MainActivity : EventBasedActivity() {
 
 
     companion object {
-        const val MAIN_CONTENT_TAG = "MAIN_CONTENT_TAG"
-    }
-
-
-    companion object {
-        private val TAG = DebugLogsActivity::class.java.simpleName
+        private const val MAIN_CONTENT_TAG = "MAIN_CONTENT_TAG"
+        private val TAG = DashboardActivity::class.java.simpleName
 
         fun navigateTo(activity: Context) {
-            activity.startActivity(Intent(activity, DebugLogsActivity::class.java))
+            activity.startActivity(Intent(activity, DashboardActivity::class.java))
 
         }
     }
+
 
 }
 

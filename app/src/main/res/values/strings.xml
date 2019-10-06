@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">RoBitcoin</string>
+    <string name="app_name">"BLOCKCHAIN"</string>
+    <string name="app_dashboard">Dashboard</string>
+    <string name="price_chart_title">Price Chart</string>
+    <string name="stats_title">Bitcoin Stats</string>
+    <string name="stats_sub_title">Bitcoin Summary statistics for the last 24 hours.</string>
+    <string name="stats_block_summary_heading"> BLOCK SUMMARY</string>
+    <string name="stats_transaction_summary_heading"> TRANSACTION SUMMARY</string>
+    <string name="stats_market_summary_heading"> MARKET SUMMARY</string>
+    <string name="stats_mining_cost"> MINING COST</string>
+
 </resources>
