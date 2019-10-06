@@ -1,16 +1,16 @@
 package com.example.robitcoin.listener
 
-interface BigfootResultListener<Result> {
+interface BlockChainResultListener<Result> {
 
     fun onEvent(result: BigfootResult<Result>)
 
 }
 
-inline infix fun <reified Result> BigfootResultListener<Result>.onSuccess(result: Result) {
+inline infix fun <reified Result> BlockChainResultListener<Result>.onSuccess(result: Result) {
     onEvent(OnSuccessBigfootResult(result))
 }
 
-inline infix fun <reified Result> BigfootResultListener<Result>.onFailure(result: Throwable) {
+inline infix fun <reified Result> BlockChainResultListener<Result>.onFailure(result: Throwable) {
     onEvent(OnFailureBigfootResult(result))
 }
 

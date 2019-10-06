@@ -1,6 +1,6 @@
 package com.example.robitcoin.network
 
-import com.example.robitcoin.network.model.BitCoinPriceing
+import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats
 import com.google.gson.Gson
 import org.junit.Test
@@ -70,7 +70,7 @@ class NetworkMarshellerTest {
 
     @Test
     fun toGraphData() {
-        val bitCoinPriceing = Gson().fromJson(pricingResponse, BitCoinPriceing::class.java)
+        val bitCoinPriceing = Gson().fromJson(pricingResponse, BlockChainGraphPlot::class.java)
         val pricing = bitCoinPriceing.toGraphData()
         assertNotNull(pricing)
         assertEquals("Transaction Rate", pricing.name)
@@ -83,7 +83,7 @@ class NetworkMarshellerTest {
 
     @Test
     fun parseToPricePoints() {
-        val bitCoinPriceing = Gson().fromJson(pricingResponse, BitCoinPriceing::class.java)
+        val bitCoinPriceing = Gson().fromJson(pricingResponse, BlockChainGraphPlot::class.java)
         val pricing = bitCoinPriceing.toGraphData()
         assertEquals(pricing.coordinates?.get(0)?.x,1.57035362E9)
         assertEquals(pricing.coordinates?.get(0)?.y,5667834.0)

@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.example.robitcoin.coroutine.BackgroundCoroutineScope
 import com.example.robitcoin.utils.StethoUtils
-import com.nike.adapt.coroutine.BackgroundCoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 
-class RoBitCoinApplication: Application(),LifecycleObserver {
+class BlockChainApplication: Application(),LifecycleObserver {
 
     private val backgroundScope: BackgroundCoroutineScope = BackgroundCoroutineScope()
     private val AKAMAI_BOT_HEADER = "X-acf-sensor-data"
@@ -31,7 +31,6 @@ class RoBitCoinApplication: Application(),LifecycleObserver {
     }
 
     private fun initLibraries() {
-
      //TODO
     }
 
@@ -42,16 +41,15 @@ class RoBitCoinApplication: Application(),LifecycleObserver {
     private fun initActivityCallbacks() {
     }
 
-    fun updateClientApi() {
-       // clientApi.firmwareApi = EnvironmentUtils.get().getTestBigfootPreferenceHelper().firmwareApi
-        //clientApi.deviceApi = EnvironmentUtils.get().getTestBigfootPreferenceHelper().deviceApi
-    }
-
     private fun initCoroutine() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(backgroundScope)
         backgroundScope.launch {
             updateClientApi()
         }
+    }
+
+    private fun updateClientApi() {
+        //clientApi.deviceApi = EnvironmentUtils.get().getTestblockChainPreferenceHelper().deviceApi
     }
 
     companion object {

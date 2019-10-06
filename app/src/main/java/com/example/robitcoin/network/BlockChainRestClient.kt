@@ -1,48 +1,42 @@
 package com.example.robitcoin.network
 
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
-import com.google.gson.Gson
 
 
-
-internal interface RoBitCoinRestClient {
-    val identityServiceApi: BitCoinPricingApi
+internal interface BlockChainRestClient {
+    val identityServiceServiceApi: BlockChainServiceApi
 
     companion object {
-        fun get(): RoBitCoinRestClient {
-            return RoBitCoinRestClientImpl
+        fun get(): BlockChainRestClient {
+            return BlockChainRestClientImpl
         }
 
+        //TODO CALL THIS
         fun reset() {
-            RoBitCoinRestClientImpl.reset()
+            BlockChainRestClientImpl.reset()
         }
     }
 }
 
-private object RoBitCoinRestClientImpl : RoBitCoinRestClient {
+private object BlockChainRestClientImpl : BlockChainRestClient {
 
-    override val identityServiceApi: BitCoinPricingApi
+    override val identityServiceServiceApi: BlockChainServiceApi
         get() {
             return getIdentityApi()
         }
 
-    private var identity: BitCoinPricingApi? = null
+    private var identity: BlockChainServiceApi? = null
 
-    private fun getIdentityApi(): BitCoinPricingApi {
+    private fun getIdentityApi(): BlockChainServiceApi {
         return identity
-                ?: nikeApiBuilder(BitCoinPricingApi::class.java).apply { identity = this }
+                ?: blockChainApiBuilder(BlockChainServiceApi::class.java).apply { identity = this }
     }
 
-    private fun <T> nikeApiBuilder(clz: Class<T>, baseUrl: String = "https://api.blockchain.info"): T {
-
-//        val interceptor = HttpLoggingInterceptor()
-//        interceptor.level = HttpLoggingInterceptor.Level.BODY
-//        okHttpClient?.interceptors()?.add(interceptor)
+    private fun <T> blockChainApiBuilder(clz: Class<T>, baseUrl: String = "https://api.blockchain.info"): T {
         val gson = GsonBuilder()
             .setLenient()
             .create()

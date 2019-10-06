@@ -1,8 +1,8 @@
 package com.example.robitcoin.network
 
 import androidx.test.filters.LargeTest
-import com.example.robitcoin.listener.BitCoinNetworkListener
-import com.example.robitcoin.network.model.BitCoinPriceing
+import com.example.robitcoin.listener.BlockChainNetworkListener
+import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats
 import com.example.robitcoin.test.util.suspendCoroutineWithTimeout
 import com.google.common.truth.Truth
@@ -10,17 +10,16 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class AdaptIdentityApiImplTest {
+class BlockChainApiImplTest {
 
-    private val bigfootPairedDevicesApi: AdaptIdentityApi = AdaptIdentityApi.get()
+    private val blockChainApi: BlockChainApi = BlockChainApi.get()
 
     @Before
     fun setUp() {
     }
 
-
-    @LargeTest
-    fun bitcoinStatsDataApiTest(){
+    @Test
+    fun getStatsApiTest(){
         runBlocking {
             val networkResponse = getStatsData()
             Truth.assertThat(networkResponse).isNotNull()
@@ -41,8 +40,8 @@ class AdaptIdentityApiImplTest {
     }
 
 
-    @LargeTest
-    fun marketPriceGraphApiTest() {
+    @Test
+    fun getMarketPriceGraphApiTest() {
         runBlocking {
             val networkResponse = getChartData("market-price")
             Truth.assertThat(networkResponse).isNotNull()
@@ -50,13 +49,13 @@ class AdaptIdentityApiImplTest {
             Truth.assertThat(networkResponse.unit).isEqualTo("USD")
             Truth.assertThat(networkResponse.period).isEqualTo("day")
             Truth.assertThat(networkResponse.description).isEqualTo("Average USD market price across major bitcoin exchanges.")
-            Truth.assertThat(networkResponse.valuers).isNotNull()
-            Truth.assertThat(networkResponse.valuers).isNotEmpty()
+            Truth.assertThat(networkResponse.values).isNotNull()
+            Truth.assertThat(networkResponse.values).isNotEmpty()
         }
     }
 
-    @LargeTest
-    fun marketCapGraphApiTest() {
+    @Test
+    fun getMarketCapGraphApiTest() {
         runBlocking {
             val networkResponse = getChartData("market-cap")
             Truth.assertThat(networkResponse).isNotNull()
@@ -64,15 +63,15 @@ class AdaptIdentityApiImplTest {
             Truth.assertThat(networkResponse.unit).isEqualTo("USD")
             Truth.assertThat(networkResponse.period).isEqualTo("day")
             Truth.assertThat(networkResponse.description).isEqualTo("The total USD value of bitcoin supply in circulation, as calculated by the daily average market price across major exchanges.")
-            Truth.assertThat(networkResponse.valuers).isNotNull()
-            Truth.assertThat(networkResponse.valuers).isNotEmpty()
+            Truth.assertThat(networkResponse.values).isNotNull()
+            Truth.assertThat(networkResponse.values).isNotEmpty()
         }
     }
 
-    private suspend fun getChartData(chartType : String) :BitCoinPriceing {
+    private suspend fun getChartData(chartType : String) :BlockChainGraphPlot {
         return suspendCoroutineWithTimeout(5_000) {
-            bigfootPairedDevicesApi.getChartData(object : BitCoinNetworkListener<BitCoinPriceing>{
-                override fun onSuccess(response: BitCoinPriceing) {
+            blockChainApi.getChartData(object : BlockChainNetworkListener<BlockChainGraphPlot>{
+                override fun onSuccess(response: BlockChainGraphPlot) {
 
                     it.resumeWith(Result.success(response))
                 }
@@ -87,7 +86,7 @@ class AdaptIdentityApiImplTest {
 
     private suspend fun getStatsData() :BlockChainStats {
         return suspendCoroutineWithTimeout(5_000) {
-            bigfootPairedDevicesApi.getBlockChainStats(object : BitCoinNetworkListener<BlockChainStats> {
+            blockChainApi.getBlockChainStats(object : BlockChainNetworkListener<BlockChainStats> {
                 override fun onSuccess(response: BlockChainStats) {
                     it.resumeWith(Result.success(response))
                 }

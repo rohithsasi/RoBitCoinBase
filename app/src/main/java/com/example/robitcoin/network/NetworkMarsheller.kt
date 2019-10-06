@@ -1,21 +1,19 @@
 package com.example.robitcoin.network
 
-import android.util.Log
 import com.example.robitcoin.model.BlockChainPopularStats
-import com.example.robitcoin.model.PricePoints
-import com.example.robitcoin.model.Pricing
-import com.example.robitcoin.network.model.BitCoinPriceing
+import com.example.robitcoin.model.Coordinates
+import com.example.robitcoin.model.BlockChainGraph
+import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats
 import com.example.robitcoin.network.model.Values
-import java.math.BigDecimal
 
 
 fun BlockChainStats.toBlockChainPopularStats(): BlockChainPopularStats{
     return BlockChainPopularStats(blocksMined,minutedBtwBlocks,btcMined,marketPrice,tradeVolumeUsd,tradeVolumeBtc,totalFeesBtc,tx,transactionVolume,minersRevenue)
 }
 
-fun BitCoinPriceing.toGraphData(): Pricing {
-    return Pricing(this.valuers.parseToPricePoints(),description,name,unit,period)
+fun BlockChainGraphPlot.toGraphData(): BlockChainGraph {
+    return BlockChainGraph(this.values.parseToPricePoints(),description,name,unit,period)
 
 }
 
@@ -25,12 +23,12 @@ fun BitCoinPriceing.toGraphData(): Pricing {
 //    return this.toLong().toString()
 //}
 
-fun List<Values>.parseToPricePoints() : List<PricePoints>{
-   val result = mutableListOf<PricePoints>()
+fun List<Values>.parseToPricePoints() : List<Coordinates>{
+   val result = mutableListOf<Coordinates>()
     //todo Isnt this correct and more kotliny
     apply {
         forEach {
-            result.add(PricePoints(it.x, it.y))
+            result.add(Coordinates(it.x, it.y))
         }
 
         val x  = 1442534400.0

@@ -1,6 +1,7 @@
 package com.example.robitcoin.eventbus
 
-import com.example.robitcoin.presenter.ActionResult
+import android.util.Log
+import com.example.robitcoin.presentation.ActionResult
 import com.example.robitcoin.BuildConfig
 
 
@@ -15,11 +16,10 @@ object EventBus {
             .logSubscriberExceptions(BuildConfig.DEBUG)
             .sendNoSubscriberEvent(BuildConfig.DEBUG)
             .sendSubscriberExceptionEvent(BuildConfig.DEBUG)
-
             /*.logger(object : Logger {
                 override fun log(level: Level?, msg: String?) {
                     if (BuildConfig.CAN_LOG && msg != null) {
-                        NikeLogger.debug("EventBus", msg)
+                        Log.d("EventBus", msg)
                     }
                 }
 
@@ -39,7 +39,7 @@ object EventBus {
         try {
             eventBus.register(any)
         } catch (throwable: Throwable) {
-           // NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+           // Log.d("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -47,7 +47,7 @@ object EventBus {
         try {
             eventBus.unregister(any)
         } catch (throwable: Throwable) {
-            //NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+            Log.d("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -55,7 +55,7 @@ object EventBus {
         try {
             eventBus.post(actionResult)
         } catch (throwable: Throwable) {
-           // NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+           Log.d("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -64,7 +64,7 @@ object EventBus {
         try {
             eventBus.post(actionResult)
         } catch (throwable: Throwable) {
-           // NikeLogger.debug("EventBus", "${throwable.message}", throwable)
+           Log.d("EventBus", "${throwable.message}", throwable)
         }
     }
 

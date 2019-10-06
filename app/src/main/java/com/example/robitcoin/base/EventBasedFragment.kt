@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.robitcoin.eventbus.EventBased
 import com.example.robitcoin.eventbus.EventBus
-import com.nike.adapt.coroutine.MainCoroutineScope
+import com.example.robitcoin.coroutine.MainCoroutineScope
 import java.util.*
 
 abstract class EventBasedFragment : Fragment(), EventBased {

@@ -1,30 +1,30 @@
-package com.example.robitcoin.presenter
+package com.example.robitcoin.presentation
 
 import com.example.robitcoin.eventbus.EventBus
 import com.example.robitcoin.listener.BigfootResult
-import com.example.robitcoin.listener.BigfootResultListener
+import com.example.robitcoin.listener.BlockChainResultListener
 import com.example.robitcoin.listener.OnFailureBigfootResult
 import com.example.robitcoin.listener.OnSuccessBigfootResult
 import com.example.robitcoin.model.BlockChainPopularStats
-import com.example.robitcoin.model.Pricing
-import com.example.robitcoin.repository.FetchProfileRepository
+import com.example.robitcoin.model.BlockChainGraph
+import com.example.robitcoin.repository.BlockChainDataRepository
 
-class BitCoinPricingViewModel {
+class BlockChainViewModel {
 
-    private val repository by lazy { FetchProfileRepository.get() }
+    private val repository by lazy { BlockChainDataRepository.get() }
 
-    fun getUserData(){
-        repository.getProfile(object : BigfootResultListener<Pricing> {
-            override fun onEvent(result: BigfootResult<Pricing>) {
+    fun fetchBlockChainGraphPlot(){
+        repository.getGraphData(object : BlockChainResultListener<BlockChainGraph> {
+            override fun onEvent(result: BigfootResult<BlockChainGraph>) {
 
                 when (result) {
                     is OnSuccessBigfootResult -> EventBus.post(
-                        FetchProfileActionResult(
+                        FetchGraphDataActionResult(
                             result.result
                         )
                     )
                     is OnFailureBigfootResult ->  EventBus.post(
-                        FetchProfileActionResult(
+                        FetchGraphDataActionResult(
                             null
                         )
                     )
@@ -34,17 +34,17 @@ class BitCoinPricingViewModel {
         })
     }
 
-    fun getBlockChainStats(){
-        repository.getBlockChainStats(object :BigfootResultListener<BlockChainPopularStats>{
+    fun fetchBlockChainStats(){
+        repository.getBlockChainStats(object :BlockChainResultListener<BlockChainPopularStats>{
             override fun onEvent(result: BigfootResult<BlockChainPopularStats>) {
                 when (result) {
                     is OnSuccessBigfootResult -> EventBus.post(
-                        FetchStatsActionResult(
+                        FetchBlockChainStatsActionResult(
                             result.result
                         )
                     )
                     is OnFailureBigfootResult ->  EventBus.post(
-                        FetchStatsActionResult(
+                        FetchBlockChainStatsActionResult(
                             null
                         )
                     )

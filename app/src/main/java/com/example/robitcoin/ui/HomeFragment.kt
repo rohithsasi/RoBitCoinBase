@@ -19,18 +19,17 @@ import com.anychart.enums.TooltipPositionMode
 import com.anychart.graphics.vector.Stroke
 import com.example.robitcoin.*
 import com.example.robitcoin.base.EventBasedFragment
-import com.example.robitcoin.model.Pricing
-import com.example.robitcoin.network.model.BitCoinPriceing
+import com.example.robitcoin.model.BlockChainGraph
+import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.Values
 
-import com.example.robitcoin.presenter.ActionResult
-import com.example.robitcoin.presenter.BitCoinPricingViewModel
-import com.example.robitcoin.presenter.FetchProfileActionResult
-import com.example.robitcoin.presenter.FetchStatsActionResult
+import com.example.robitcoin.presentation.ActionResult
+import com.example.robitcoin.presentation.BlockChainViewModel
+import com.example.robitcoin.presentation.FetchGraphDataActionResult
+import com.example.robitcoin.presentation.FetchBlockChainStatsActionResult
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import kotlin.math.roundToLong
 
 
 /////Move location unit test
@@ -46,9 +45,9 @@ fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDo
 
 class HomeFragment : EventBasedFragment() {
 
-    var result: BitCoinPriceing? = null
+    var result: BlockChainGraphPlot? = null
     var output: List<Values> = mutableListOf()
-    val viewModel = BitCoinPricingViewModel()
+    val viewModel = BlockChainViewModel()
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
@@ -56,12 +55,12 @@ class HomeFragment : EventBasedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false).apply {
             (view as? ViewGroup)?.forEach { it.alpha = 0f }
-            viewModel.getUserData()
+            viewModel.fetchBlockChainGraphPlot()
         }
     }
 
 
-    fun updateGraph(graphData: Pricing) {
+    fun updateGraph(graphData: BlockChainGraph) {
 
         APIlib.getInstance().setActiveAnyChartView(any_chart_view_1);
         val pie = AnyChart.line()
@@ -122,18 +121,18 @@ class HomeFragment : EventBasedFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFetchProfileResult(result: ActionResult) {
         when (result) {
-            is FetchProfileActionResult -> {
-                Log.d("BITCOIN", "${result.bigfootUser?.coordinates?.joinToString { "***" }}")
-                result.bigfootUser?.let {
+            is FetchGraphDataActionResult -> {
+                Log.d("BITCOIN", "${result.graphPlot?.coordinates?.joinToString { "***" }}")
+                result.graphPlot?.let {
                     updateGraph(it)
                 } ?: let {
 
                 }
 
-               //viewModel.getBlockChainStats()
+               //viewModel.fetchBlockChainStats()
             }
 
-            is FetchStatsActionResult -> {
+            is FetchBlockChainStatsActionResult -> {
                 result.stats?.let {
                     //Toast.makeText(this, " Bitcoin Price is ${it}", Toast.LENGTH_LONG).show()
                 }

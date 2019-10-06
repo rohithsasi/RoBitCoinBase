@@ -2,7 +2,6 @@ package com.example.robitcoin.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.robitcoin.R
 import com.example.robitcoin.base.EventBasedFragment
-import com.example.robitcoin.presenter.ActionResult
-import com.example.robitcoin.presenter.BitCoinPricingViewModel
-import com.example.robitcoin.presenter.FetchProfileActionResult
-import com.example.robitcoin.presenter.FetchStatsActionResult
+import com.example.robitcoin.presentation.ActionResult
+import com.example.robitcoin.presentation.BlockChainViewModel
+import com.example.robitcoin.presentation.FetchBlockChainStatsActionResult
 import com.example.robitcoin.ui.adapter.StatsAdapter
 import kotlinx.android.synthetic.main.fragment_stats.*
 import kotlinx.android.synthetic.main.fragment_stats.stats_recycle_view
@@ -25,7 +23,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class StatsFragment : EventBasedFragment() {
 
-    val viewModel = BitCoinPricingViewModel()
+    val viewModel = BlockChainViewModel()
     lateinit var adapter: StatsAdapter
 
     override fun onAttach(context: Context) {
@@ -41,7 +39,7 @@ class StatsFragment : EventBasedFragment() {
                 layoutManager = LinearLayoutManager(activity)
             }
 
-            viewModel.getBlockChainStats()
+            viewModel.fetchBlockChainStats()
         }
     }
 
@@ -49,7 +47,7 @@ class StatsFragment : EventBasedFragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFetchBlockChainStatsResult(result: ActionResult) {
         when (result) {
-            is FetchStatsActionResult -> {
+            is FetchBlockChainStatsActionResult -> {
                 result.stats?.let {
                     adapter = StatsAdapter(it)
                     stats_recycle_view.adapter =adapter

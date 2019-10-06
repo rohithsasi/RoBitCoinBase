@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.robitcoin.R
 import com.example.robitcoin.eventbus.EventBased
 import com.example.robitcoin.eventbus.EventBus
-import com.nike.adapt.coroutine.MainCoroutineScope
-
-import java.util.*
+import com.example.robitcoin.coroutine.MainCoroutineScope
 
 abstract class EventBasedActivity : AppCompatActivity(), EventBased {
 

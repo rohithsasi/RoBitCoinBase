@@ -1,12 +1,10 @@
 package com.example.robitcoin
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 
 fun Int.getString(): String {
-    return RoBitCoinApplication.APPLICATION.getString(this)
+    return BlockChainApplication.APPLICATION.getString(this)
 }
 
 infix fun Int.insertString(textView: TextView) {
@@ -14,5 +12,5 @@ infix fun Int.insertString(textView: TextView) {
 }
 
 fun Int.getColor(): Int {
-    return ContextCompat.getColor(RoBitCoinApplication.APPLICATION, this)
+    return ContextCompat.getColor(BlockChainApplication.APPLICATION, this)
 }

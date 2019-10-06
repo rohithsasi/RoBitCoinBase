@@ -1,56 +1,57 @@
 package com.example.robitcoin.network
 
 import android.util.Log
-import com.example.robitcoin.listener.BitCoinNetworkListener
-import com.example.robitcoin.network.model.BitCoinPriceing
+import com.example.robitcoin.listener.BlockChainNetworkListener
+import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-interface AdaptIdentityApi {
-    fun getChartData(networListener: BitCoinNetworkListener<BitCoinPriceing>, chartType :String ="market-price")
-    fun getBlockChainStats(networkListener: BitCoinNetworkListener<BlockChainStats>)
+interface BlockChainApi {
+    fun getChartData(
+        networkListener: BlockChainNetworkListener<BlockChainGraphPlot>,
+        chartType: String = "market-price"
+    )
+
+    fun getBlockChainStats(networkListener: BlockChainNetworkListener<BlockChainStats>)
 
     companion object {
-        fun get(): AdaptIdentityApi {
-            return AdaptIdentityApiImpl
+        fun get(): BlockChainApi {
+            return BlockChainApiImpl
         }
     }
 }
 
-private val identityServiceApi: BitCoinPricingApi by lazy {
-    RoBitCoinRestClient.get().identityServiceApi
+private val BLOCK_CHAIN_SERVICE_API: BlockChainServiceApi by lazy {
+    BlockChainRestClient.get().identityServiceServiceApi
 }
 
-private object AdaptIdentityApiImpl : AdaptIdentityApi {
-    override fun getBlockChainStats(networkListener: BitCoinNetworkListener<BlockChainStats>) {
-
-        identityServiceApi.getBlockChainStats()
+private object BlockChainApiImpl : BlockChainApi {
+    override fun getBlockChainStats(networkListener: BlockChainNetworkListener<BlockChainStats>) {
+        BLOCK_CHAIN_SERVICE_API.getBlockChainStats()
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
-                if (it.isSuccessful)
-                {
+                if (it.isSuccessful) {
                     it.body()?.let { it1 -> networkListener.onSuccess(it1) } ?: let {
                         //TODO
                         //throw error bruh!!!!!!
                     }
-                }
-                else{
+                } else {
                     //TODO
                     //throw error bruh!!!!!!
                 }
 
-
             }, {
-
                 //TODO
                 //throw error bruh!!!!!!
             })
-
     }
 
-    override fun getChartData(networListener: BitCoinNetworkListener<BitCoinPriceing>, chartType :String) {
-       identityServiceApi.getCharts(
+    override fun getChartData(
+        networListener: BlockChainNetworkListener<BlockChainGraphPlot>,
+        chartType: String
+    ) {
+        BLOCK_CHAIN_SERVICE_API.getCharts(
             chartType,
             "6months",
             "8hours"
@@ -75,18 +76,14 @@ private object AdaptIdentityApiImpl : AdaptIdentityApi {
         })
     }
 
-    fun  handleError(){
+    fun handleError() {
         //TODO Extension function like bigfootpaireddeviceapi
         //Unit testable
-        //Impelement!
-
     }
 
-
-    fun  handleResponse(){
+    fun handleResponse() {
         //TODO
         //UnitTestable
-
     }
 }
 

@@ -56,7 +56,7 @@ dependencies {
     // junit testing
     testImplementation 'junit:junit:4.12'
 
-    // nike junit testing
+    //junit testing
     testImplementation 'org.powermock:powermock-module-junit4:2.0.0-beta.5'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0-beta.5'
     testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -90,5 +90,8 @@ dependencies {
     // event bus
     implementation 'org.greenrobot:eventbus:3.1.1'
 
+}
 
+androidExtensions {
+    experimental = true
 }
