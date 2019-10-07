@@ -13,10 +13,11 @@ import com.example.robitcoin.network.model.BlockChainStats
 import com.example.robitcoin.network.toBlockChainPopularStats
 import com.example.robitcoin.network.toGraphData
 import com.example.robitcoin.preferences.BlockChainPreferenceHelper
+import com.example.robitcoin.presentation.Chart
 import io.reactivex.schedulers.Schedulers
 
 interface BlockChainDataRepository {
-    fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>)
+    fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>,chart: Chart)
     fun getBlockChainStats(blockChainResultListener: BlockChainResultListener<BlockChainPopularStats>)
 
     companion object {
@@ -40,15 +41,21 @@ internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal var blockChainPrefHelper = BlockChainPreferenceHelper.get()
 
-    override fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>) {
+    override fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>,chart: Chart) {
 
-        publishChartData(resultListener) {
+        publishChartData(resultListener,chart) {
             // no-op on failure
         }
         blockChainApi.getChartData(object : BlockChainNetworkListener<BlockChainGraphPlot> {
             override fun onSuccess(response: BlockChainGraphPlot) {
                 response.toGraphData().run {
-                    BlockChainPreferenceHelper.get().setBlockChainGraph(this)
+                    
+                    if(chart==Chart.MARKET_PRICE) {
+                        BlockChainPreferenceHelper.get().setBlockChainMarketPrice(this)
+                    }
+                    else{
+                        BlockChainPreferenceHelper.get().setBlockChainMarketCap(this)
+                    }
                     publishChartData(resultListener) {
                         resultListener onFailure it
                     }
@@ -57,7 +64,7 @@ internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
 
             override fun onFailure(throwable: Throwable) {
             }
-        })
+        },chart.type)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -79,8 +86,11 @@ internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun publishChartData(resultListener: BlockChainResultListener<BlockChainGraph>, onFailure: (Throwable) -> Unit) {
-        val result = blockChainPrefHelper.getBlockChainGraph().observeOn(Schedulers.io())
+    internal fun publishChartData(resultListener: BlockChainResultListener<BlockChainGraph>, chart: Chart =Chart.MARKET_PRICE, onFailure: (Throwable) -> Unit) {
+            var observable = if(chart ==Chart.MARKET_PRICE)blockChainPrefHelper.getBlockChainMarketPrice() 
+            else blockChainPrefHelper.getBlockChainMarketCap()
+            
+            val disposable =observable.observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io()).subscribe {
             resultListener onSuccess it
         }

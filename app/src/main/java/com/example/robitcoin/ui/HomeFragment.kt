@@ -19,10 +19,7 @@ import com.anychart.graphics.vector.Stroke
 import com.example.robitcoin.R
 import com.example.robitcoin.base.EventBasedFragment
 import com.example.robitcoin.model.BlockChainGraph
-import com.example.robitcoin.presentation.ActionResult
-import com.example.robitcoin.presentation.BlockChainViewModel
-import com.example.robitcoin.presentation.FetchBlockChainStatsActionResult
-import com.example.robitcoin.presentation.FetchGraphDataActionResult
+import com.example.robitcoin.presentation.*
 import com.example.robitcoin.utils.parseToDate
 import com.example.robitcoin.utils.round
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -41,7 +38,7 @@ class HomeFragment : EventBasedFragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false).apply {
             (view as? ViewGroup)?.forEach { it.alpha = 0f }
-            viewModel.fetchBlockChainGraphPlot()
+            viewModel.fetchBlockChainMarketCapGraph(Chart.MARKET_PRICE)
         }
     }
 

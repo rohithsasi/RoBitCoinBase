@@ -13,26 +13,14 @@ class BlockChainViewModel {
 
     private val repository by lazy { BlockChainDataRepository.get() }
 
-    fun fetchBlockChainGraphPlot(){
-        repository.getGraphData(object : BlockChainResultListener<BlockChainGraph> {
-            override fun onEvent(result: RoBitcoinResult<BlockChainGraph>) {
-
-                when (result) {
-                    is OnSuccessRoBitcoinResult -> EventBus.post(
-                        FetchGraphDataActionResult(
-                            result.result
-                        )
-                    )
-                    is OnFailureRoBitcoinResult ->  EventBus.post(
-                        FetchGraphDataActionResult(
-                            null
-                        )
-                    )
-                }
-            }
-
-        })
+    fun fetchBlockChainPricingGraph(chart: Chart){
+        getGraphData(chart)
     }
+
+    fun fetchBlockChainMarketCapGraph(chart: Chart){
+        getGraphData(chart)
+    }
+
 
     fun fetchBlockChainStats(){
         repository.getBlockChainStats(object :BlockChainResultListener<BlockChainPopularStats>{
@@ -53,4 +41,30 @@ class BlockChainViewModel {
 
         })
     }
+
+    private fun getGraphData(chart: Chart){
+        repository.getGraphData(object : BlockChainResultListener<BlockChainGraph> {
+            override fun onEvent(result: RoBitcoinResult<BlockChainGraph>) {
+
+                when (result) {
+                    is OnSuccessRoBitcoinResult -> EventBus.post(
+                        FetchGraphDataActionResult(
+                            result.result
+                        )
+                    )
+                    is OnFailureRoBitcoinResult ->  EventBus.post(
+                        FetchGraphDataActionResult(
+                            null
+                        )
+                    )
+                }
+            }
+        },chart)
+    }
+}
+
+
+enum class Chart(val type:String){
+    MARKET_PRICE("market-price"),
+    MARKETY_CAP("market-cap")
 }

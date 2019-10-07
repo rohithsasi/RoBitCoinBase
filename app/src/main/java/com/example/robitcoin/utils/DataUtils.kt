@@ -11,3 +11,7 @@ fun Double.parseToDate(): String {
 
 //TODO UNIT TEST
 fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
+
+fun Double.roundToBillion():Double{
+    return this/1000000000
+}

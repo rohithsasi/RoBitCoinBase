@@ -8,7 +8,8 @@ import com.example.robitcoin.model.BlockChainGraph
 import com.google.gson.Gson
 import io.reactivex.Observable
 
-private const val PREF_GRAPH_DATA = "PREF_GRAPH_DATA"
+private const val PREF_MARKET_PRICE_DATA = "PREF_MARKET_PRICE_DATA"
+private const val PREF_MARKET_CAP_DATA = "PREF_MARKET_CAP_DATA"
 
 private val sharedPreferences: SharedPreferences by lazy {
     BlockChainApplication.APPLICATION.getSharedPreferences(
@@ -18,8 +19,11 @@ private val sharedPreferences: SharedPreferences by lazy {
 }
 
 interface BlockChainPreferenceHelper {
-    fun getBlockChainGraph(): Observable<BlockChainGraph>
-    fun setBlockChainGraph(graph: BlockChainGraph)
+    fun getBlockChainMarketPrice(): Observable<BlockChainGraph>
+    fun setBlockChainMarketPrice(graph: BlockChainGraph)
+
+    fun getBlockChainMarketCap(): Observable<BlockChainGraph>
+    fun setBlockChainMarketCap(graph: BlockChainGraph)
 
     fun nuke()
 
@@ -31,18 +35,31 @@ interface BlockChainPreferenceHelper {
 }
 
 private object BlockChainPreferenceHelperImpl : BlockChainPreferenceHelper {
-
-    override fun getBlockChainGraph(): Observable<BlockChainGraph> {
+    override fun getBlockChainMarketCap(): Observable<BlockChainGraph> {
         return defer {
-            return@defer sharedPreferences.getString(PREF_GRAPH_DATA, null)?.let { data ->
+            return@defer sharedPreferences.getString(PREF_MARKET_CAP_DATA, null)?.let { data ->
                 Gson().fromJson(data, BlockChainGraph::class.java)
             } ?: return@defer BlockChainGraph()
         }
     }
 
-    override fun setBlockChainGraph(graph: BlockChainGraph) {
+    override fun setBlockChainMarketCap(graph: BlockChainGraph) {
         sharedPreferences.edit {
-            putString(PREF_GRAPH_DATA, Gson().toJson(graph))
+            putString(PREF_MARKET_CAP_DATA, Gson().toJson(graph))
+        }
+    }
+
+    override fun getBlockChainMarketPrice(): Observable<BlockChainGraph> {
+        return defer {
+            return@defer sharedPreferences.getString(PREF_MARKET_PRICE_DATA, null)?.let { data ->
+                Gson().fromJson(data, BlockChainGraph::class.java)
+            } ?: return@defer BlockChainGraph()
+        }
+    }
+
+    override fun setBlockChainMarketPrice(graph: BlockChainGraph) {
+        sharedPreferences.edit {
+            putString(PREF_MARKET_PRICE_DATA, Gson().toJson(graph))
         }
     }
 

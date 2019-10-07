@@ -63,7 +63,7 @@ class DashboardActivity : EventBasedActivity() {
                 }
                 R.id.nav_store -> {
                     bgf_toolbar.title = "Store"
-                    val songsFragment = StatsFragment.newFragment()
+                    val songsFragment = MarketFragment.newFragment()
                     launchFragment(songsFragment)
                     return@OnNavigationItemSelectedListener true
                 }

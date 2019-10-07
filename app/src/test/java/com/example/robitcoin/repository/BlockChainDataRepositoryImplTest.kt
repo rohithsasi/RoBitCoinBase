@@ -23,12 +23,19 @@ class BlockChainDataRepositoryImplTest {
             BlockChainDataRepository.get() as BlockChainDataRepositoryImpl
         val success = OnSuccessRoBitcoinResult(BlockChainGraph())
         repo.blockChainPrefHelper = object : BlockChainPreferenceHelper {
+            override fun getBlockChainMarketCap(): Observable<BlockChainGraph> {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
-            override fun getBlockChainGraph(): Observable<BlockChainGraph> {
+            override fun setBlockChainMarketCap(graph: BlockChainGraph) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun getBlockChainMarketPrice(): Observable<BlockChainGraph> {
                 return Observable.create {it.onNext(success.result)}
             }
 
-            override fun setBlockChainGraph(graph: BlockChainGraph) {
+            override fun setBlockChainMarketPrice(graph: BlockChainGraph) {
             }
 
             override fun nuke() {

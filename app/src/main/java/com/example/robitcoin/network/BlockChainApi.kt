@@ -27,10 +27,6 @@ private val BLOCK_CHAIN_SERVICE_API: BlockChainServiceApi by lazy {
     BlockChainRestClient.get().identityServiceServiceApi
 }
 
-private val BLOCK_CHAIN_DISPOSABLE: BlockChainServiceApi by lazy {
-    BlockChainRestClient.get().identityServiceServiceApi
-}
-
 private object BlockChainApiImpl : BlockChainApi {
     override fun getBlockChainStats(networkListener: BlockChainNetworkListener<BlockChainStats>) {
        //todo destroy these
@@ -53,21 +49,18 @@ private object BlockChainApiImpl : BlockChainApi {
         networkListener: BlockChainNetworkListener<BlockChainGraphPlot>,
         chartType: String
     ) {
-        //TODO destroy these
+        //TODO destroy the disposable on destroy
         val disposable =BLOCK_CHAIN_SERVICE_API.getCharts(
             chartType,
             "6months",
             "8hours"
         ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
             if (it.isSuccessful) {
-                Log.d("BITCOIN  ", "Success ")
-                Log.d("BITCOIN  ", "Success")
-                Log.d("BITCOIN  ", "Success")
                 it.body()?.let { it1 -> networkListener.onSuccess(it1) } ?: let {
                     networkListener.onFailure(Throwable("Netowork Failure"))
                 }
             } else {
-                networkListener.onFailure(Throwable("Netowork Failure"))
+                networkListener.onFailure(Throwable("Network Failure"))
             }
         }, {
             networkListener.onFailure(it)
