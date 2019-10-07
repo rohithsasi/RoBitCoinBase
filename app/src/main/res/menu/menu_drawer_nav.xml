@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+<menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
@@ -11,19 +11,19 @@
         android:checkableBehavior="single">
 
     <item
-        android:id="@+id/nav_drawer_home"
-        android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:id="@+id/nav_wallet"
+        android:icon="@drawable/ic_wallet"
+        android:title="@string/nav_drawer_wallet" />
 
     <item
-        android:id="@+id/nav_drawer_store"
-        android:icon="@drawable/ic_store"
-        android:title="Market" />
+        android:id="@+id/nav_portal"
+        android:icon="@drawable/ic_help"
+        android:title="@string/nav_drawer_portal" />
 
     <item
-        android:id="@+id/nav_drawer_stats"
-        android:icon="@drawable/ic_chart"
-        android:title="Stats" />
+        android:id="@+id/nav_lock_box"
+        android:icon="@drawable/ic_lock"
+        android:title="@string/nav_drawer_lockbox" />
 
     </group>
 
@@ -33,7 +33,7 @@
         <item
             android:id="@+id/nav_drawer_settings"
             android:icon="@drawable/ic_settings_black"
-            android:title="Settings" />
+            android:title="@string/bottom_drawer_settings" />
     </group>
 
 </menu>

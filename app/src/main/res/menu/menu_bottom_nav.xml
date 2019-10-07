@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+<menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="@string/bottom_nav_home" />
 
     <item
         android:id="@+id/nav_store"
         android:icon="@drawable/ic_store"
-        android:title="Market" />
+        android:title="@string/bottom_nav_market" />
 
     <item
         android:id="@+id/nav_stats"
         android:icon="@drawable/ic_chart"
-        android:title="Stats" />
+        android:title="@string/bottom_nav_stats" />
 </menu>

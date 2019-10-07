@@ -1,6 +1,5 @@
 package com.example.robitcoin.network
 
-import androidx.test.filters.LargeTest
 import com.example.robitcoin.listener.BlockChainNetworkListener
 import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats
@@ -19,7 +18,7 @@ class BlockChainApiImplTest {
     }
 
     @Test
-    fun getStatsApiTest(){
+    fun getStatsApiTest() {
         runBlocking {
             val networkResponse = getStatsData()
             Truth.assertThat(networkResponse).isNotNull()
@@ -48,7 +47,8 @@ class BlockChainApiImplTest {
             Truth.assertThat(networkResponse.name).isEqualTo("Market Price (USD)")
             Truth.assertThat(networkResponse.unit).isEqualTo("USD")
             Truth.assertThat(networkResponse.period).isEqualTo("day")
-            Truth.assertThat(networkResponse.description).isEqualTo("Average USD market price across major bitcoin exchanges.")
+            Truth.assertThat(networkResponse.description)
+                .isEqualTo("Average USD market price across major bitcoin exchanges.")
             Truth.assertThat(networkResponse.values).isNotNull()
             Truth.assertThat(networkResponse.values).isNotEmpty()
         }
@@ -62,15 +62,16 @@ class BlockChainApiImplTest {
             Truth.assertThat(networkResponse.name).isEqualTo("Market Capitalization")
             Truth.assertThat(networkResponse.unit).isEqualTo("USD")
             Truth.assertThat(networkResponse.period).isEqualTo("day")
-            Truth.assertThat(networkResponse.description).isEqualTo("The total USD value of bitcoin supply in circulation, as calculated by the daily average market price across major exchanges.")
+            Truth.assertThat(networkResponse.description)
+                .isEqualTo("The total USD value of bitcoin supply in circulation, as calculated by the daily average market price across major exchanges.")
             Truth.assertThat(networkResponse.values).isNotNull()
             Truth.assertThat(networkResponse.values).isNotEmpty()
         }
     }
 
-    private suspend fun getChartData(chartType : String) :BlockChainGraphPlot {
+    private suspend fun getChartData(chartType: String): BlockChainGraphPlot {
         return suspendCoroutineWithTimeout(5_000) {
-            blockChainApi.getChartData(object : BlockChainNetworkListener<BlockChainGraphPlot>{
+            blockChainApi.getChartData(object : BlockChainNetworkListener<BlockChainGraphPlot> {
                 override fun onSuccess(response: BlockChainGraphPlot) {
 
                     it.resumeWith(Result.success(response))
@@ -80,19 +81,19 @@ class BlockChainApiImplTest {
                     it.resumeWith(Result.failure(throwable))
                 }
 
-            },chartType)
+            }, chartType)
         }
     }
 
-    private suspend fun getStatsData() :BlockChainStats {
+    private suspend fun getStatsData(): BlockChainStats {
         return suspendCoroutineWithTimeout(5_000) {
             blockChainApi.getBlockChainStats(object : BlockChainNetworkListener<BlockChainStats> {
                 override fun onSuccess(response: BlockChainStats) {
                     it.resumeWith(Result.success(response))
                 }
 
-                override fun onFailure(throwable: Throwable)
-                {it.resumeWith(Result.failure(throwable))
+                override fun onFailure(throwable: Throwable) {
+                    it.resumeWith(Result.failure(throwable))
                 }
             })
         }

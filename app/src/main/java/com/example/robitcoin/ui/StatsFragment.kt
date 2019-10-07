@@ -1,6 +1,5 @@
 package com.example.robitcoin.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.robitcoin.presentation.BlockChainViewModel
 import com.example.robitcoin.presentation.FetchBlockChainStatsActionResult
 import com.example.robitcoin.ui.adapter.StatsAdapter
 import kotlinx.android.synthetic.main.fragment_stats.*
-import kotlinx.android.synthetic.main.fragment_stats.stats_recycle_view
 import kotlinx.android.synthetic.main.fragment_stats.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -23,14 +21,14 @@ import org.greenrobot.eventbus.ThreadMode
 
 class StatsFragment : EventBasedFragment() {
 
-    val viewModel = BlockChainViewModel()
-    lateinit var adapter: StatsAdapter
+    private val viewModel = BlockChainViewModel()
+    private lateinit var adapter: StatsAdapter
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_stats, container, false).apply {
             (view as? ViewGroup)?.forEach { it.alpha = 0f }
 
@@ -50,7 +48,7 @@ class StatsFragment : EventBasedFragment() {
             is FetchBlockChainStatsActionResult -> {
                 result.stats?.let {
                     adapter = StatsAdapter(it)
-                    stats_recycle_view.adapter =adapter
+                    stats_recycle_view.adapter = adapter
                     adapter.updateDataSet(it)
                     stats_progress.visibility = View.GONE
                     stats_holder.visibility = View.VISIBLE

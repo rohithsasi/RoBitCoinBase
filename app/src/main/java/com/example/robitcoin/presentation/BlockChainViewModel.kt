@@ -1,10 +1,10 @@
 package com.example.robitcoin.presentation
 
 import com.example.robitcoin.eventbus.EventBus
-import com.example.robitcoin.listener.BigfootResult
+import com.example.robitcoin.listener.RoBitcoinResult
 import com.example.robitcoin.listener.BlockChainResultListener
-import com.example.robitcoin.listener.OnFailureBigfootResult
-import com.example.robitcoin.listener.OnSuccessBigfootResult
+import com.example.robitcoin.listener.OnFailureRoBitcoinResult
+import com.example.robitcoin.listener.OnSuccessRoBitcoinResult
 import com.example.robitcoin.model.BlockChainPopularStats
 import com.example.robitcoin.model.BlockChainGraph
 import com.example.robitcoin.repository.BlockChainDataRepository
@@ -15,15 +15,15 @@ class BlockChainViewModel {
 
     fun fetchBlockChainGraphPlot(){
         repository.getGraphData(object : BlockChainResultListener<BlockChainGraph> {
-            override fun onEvent(result: BigfootResult<BlockChainGraph>) {
+            override fun onEvent(result: RoBitcoinResult<BlockChainGraph>) {
 
                 when (result) {
-                    is OnSuccessBigfootResult -> EventBus.post(
+                    is OnSuccessRoBitcoinResult -> EventBus.post(
                         FetchGraphDataActionResult(
                             result.result
                         )
                     )
-                    is OnFailureBigfootResult ->  EventBus.post(
+                    is OnFailureRoBitcoinResult ->  EventBus.post(
                         FetchGraphDataActionResult(
                             null
                         )
@@ -36,14 +36,14 @@ class BlockChainViewModel {
 
     fun fetchBlockChainStats(){
         repository.getBlockChainStats(object :BlockChainResultListener<BlockChainPopularStats>{
-            override fun onEvent(result: BigfootResult<BlockChainPopularStats>) {
+            override fun onEvent(result: RoBitcoinResult<BlockChainPopularStats>) {
                 when (result) {
-                    is OnSuccessBigfootResult -> EventBus.post(
+                    is OnSuccessRoBitcoinResult -> EventBus.post(
                         FetchBlockChainStatsActionResult(
                             result.result
                         )
                     )
-                    is OnFailureBigfootResult ->  EventBus.post(
+                    is OnFailureRoBitcoinResult ->  EventBus.post(
                         FetchBlockChainStatsActionResult(
                             null
                         )

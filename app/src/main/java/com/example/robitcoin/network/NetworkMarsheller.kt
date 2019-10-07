@@ -17,30 +17,13 @@ fun BlockChainGraphPlot.toGraphData(): BlockChainGraph {
 
 }
 
-
-//fun String.parseToDecimalFormat():String{
-//
-//    return this.toLong().toString()
-//}
-
 fun List<Values>.parseToPricePoints() : List<Coordinates>{
    val result = mutableListOf<Coordinates>()
-    //todo Isnt this correct and more kotliny
     apply {
         forEach {
             result.add(Coordinates(it.x, it.y))
         }
 
-        val x  = 1442534400.0
-        //Log.d ("ROHITH",x.parseToDate())
         return result
     }
 }
-
-
-//fun Double.parseToDate() : String{
-//
-//    val sdf = java.text.SimpleDateFormat("yyyy-MM-dd")
-//    val date = java.util.Date(1532358895 * 1000)
-//    return sdf.format(date)
-//}

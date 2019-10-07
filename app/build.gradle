@@ -25,12 +25,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //TODO Organize this like commerce of you have time neatly to impress //just like commerce MUST DOOOOO
-
     //kotlin magic
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1'
 
     // google/android essentials
     implementation 'androidx.preference:preference:1.1.0'
@@ -42,28 +40,27 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
 
     // networking
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
 
     //rx java
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
     testImplementation 'junit:junit:4.12'
 
     // junit testing
     testImplementation 'junit:junit:4.12'
 
     //junit testing
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.0-beta.5'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0-beta.5'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.2'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.2'
     testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     testImplementation('androidx.test.ext:truth:1.1.0') {
         exclude group: 'com.google.code.findbugs'
     }
-    testImplementation 'org.robolectric:robolectric:4.0.2'
+
     androidTestUtil 'androidx.test:orchestrator:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -80,7 +77,7 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
-    //TODO make release and debug implementation
+    //for debugging and inspecting traffic
     debugImplementation 'com.facebook.stetho:stetho:1.5.0'
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 

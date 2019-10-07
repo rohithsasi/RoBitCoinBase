@@ -22,5 +22,4 @@ data class BlockChainStats(
     @SerializedName("miners_revenue_btc")val minersRevenueBtc : String,
     @SerializedName("total_btc_sent")val totalBtcSent : String,
     @SerializedName("trade_volume_btc")val tradeVolumeBtc : String,
-    @SerializedName("trade_volume_usd")val tradeVolumeUsd : String) {
-}
+    @SerializedName("trade_volume_usd")val tradeVolumeUsd : String)

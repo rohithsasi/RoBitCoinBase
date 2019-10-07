@@ -1,15 +1,12 @@
 package com.example.robitcoin.ui.adapter
 
-import com.example.robitcoin.model.BlockChainPopularStats
-import com.example.robitcoin.network.model.BlockChainStats
-import org.junit.Assert.*
 import org.junit.Test
 
 class StatsUtilTest {
 
-    val blockChainStats = BlockChainPopularStats("312","232","232",
-        "4334","334","3434","4343","343",
-        "343","343")
+//    val blockChainStats = BlockChainPopularStats("312","232","232",
+//        "4334","334","3434","4343","343",
+//        "343","343")
 
     @Test
     fun generateStatsHeadings() {

@@ -39,7 +39,7 @@ object EventBus {
         try {
             eventBus.register(any)
         } catch (throwable: Throwable) {
-           // Log.d("EventBus", "${throwable.message}", throwable)
+            Log.d("EventBus", "${throwable.message}", throwable)
         }
     }
 
@@ -58,16 +58,4 @@ object EventBus {
            Log.d("EventBus", "${throwable.message}", throwable)
         }
     }
-
-
-    fun postADK(actionResult: ActionResult) {
-        try {
-            eventBus.post(actionResult)
-        } catch (throwable: Throwable) {
-           Log.d("EventBus", "${throwable.message}", throwable)
-        }
-    }
-
-
-
 }

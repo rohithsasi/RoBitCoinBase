@@ -5,13 +5,15 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 
+//REMOVE
+
 object RoBitCoinApplicationState : LifecycleObserver {
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this) // as of now, best for detecting if backgrounded, has a 700 ms timeout set
     }
 
-    var isBackgrounded: Boolean = true
+    private var isBackgrounded: Boolean = true
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {

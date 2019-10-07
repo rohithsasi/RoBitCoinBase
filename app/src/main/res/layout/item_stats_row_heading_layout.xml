@@ -13,7 +13,7 @@
             android:id="@+id/stats_heading"
             android:layout_width="wrap_content"
             android:layout_gravity="start"
-            style="@style/BigfootSettingsText"
+            style="@style/BlockChainSettingsText"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf ="parent"

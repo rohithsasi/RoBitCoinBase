@@ -9,13 +9,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import io.reactivex.Observable
 
-const val PATH = "charts/transactions-per-second"
 const val CHARTS = "charts/{chartType}"
 const val STATS = "stats"
 
 interface BlockChainServiceApi {
 
-    @GET("$CHARTS")
+    @GET(CHARTS)
     @Headers(value = ["Accept:application/json; charset=utf-8", "Accept-Charset:utf-8"])
     fun getCharts(
         /*@Query("chartName") chartName: String,*/
@@ -28,7 +27,7 @@ interface BlockChainServiceApi {
     ): Observable<Response<BlockChainGraphPlot>>
 
 
-    @GET("$STATS")
+    @GET(STATS)
     @Headers(value = ["Accept:application/json; charset=utf-8", "Accept-Charset:utf-8"])
     fun getBlockChainStats() : Observable<Response<BlockChainStats>>
 

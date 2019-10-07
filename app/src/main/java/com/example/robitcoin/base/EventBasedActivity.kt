@@ -12,10 +12,6 @@ abstract class EventBasedActivity : AppCompatActivity(), EventBased {
 
     protected val uiScope = MainCoroutineScope()
 
-    @Suppress("LeakingThis")
-    private val eventTag: String = this::class.java.simpleName
-//    private val uuid: UUID = UUID.randomUUID()
-//    protected val eventUUID: EventUUID = EventUUID(eventTag, uuid)
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,7 +8,7 @@ import org.junit.Assert.*
 
 class BlockChainStatsTest {
 
-    val statsResponse: String = """
+    private val statsResponse: String = """
         {
         "market_price_usd": 610.036975,
         "hash_rate": 1.8410989266292908E9,
@@ -32,8 +32,8 @@ class BlockChainStatsTest {
         "timestamp": 1474035340000
     }
 """
-    val bitCoinStats = Gson().fromJson(statsResponse, BlockChainStats::class.java)
-    val bitcoinPopularStats = bitCoinStats.toBlockChainPopularStats()
+   private val bitCoinStats = Gson().fromJson(statsResponse, BlockChainStats::class.java)
+    private val bitcoinPopularStats = bitCoinStats.toBlockChainPopularStats()
 
     @Test
     fun getTimestamp() {

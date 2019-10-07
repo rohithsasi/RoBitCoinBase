@@ -1,17 +1,22 @@
 package com.example.robitcoin.repository
 
-import com.example.robitcoin.listener.*
-import com.example.robitcoin.model.BlockChainPopularStats
+import androidx.annotation.VisibleForTesting
+import com.example.robitcoin.listener.BlockChainNetworkListener
+import com.example.robitcoin.listener.BlockChainResultListener
+import com.example.robitcoin.listener.onFailure
+import com.example.robitcoin.listener.onSuccess
 import com.example.robitcoin.model.BlockChainGraph
+import com.example.robitcoin.model.BlockChainPopularStats
 import com.example.robitcoin.network.BlockChainApi
 import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats
-import com.example.robitcoin.network.toGraphData
 import com.example.robitcoin.network.toBlockChainPopularStats
+import com.example.robitcoin.network.toGraphData
 import com.example.robitcoin.preferences.BlockChainPreferenceHelper
+import io.reactivex.schedulers.Schedulers
 
 interface BlockChainDataRepository {
-    fun getGraphData(adaptResultListener: BlockChainResultListener<BlockChainGraph>)
+    fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>)
     fun getBlockChainStats(blockChainResultListener: BlockChainResultListener<BlockChainPopularStats>)
 
     companion object {
@@ -21,37 +26,31 @@ interface BlockChainDataRepository {
     }
 }
 
-private object BlockChainDataRepositoryImpl : BlockChainDataRepository {
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
     override fun getBlockChainStats(blockChainResultListener: BlockChainResultListener<BlockChainPopularStats>) {
-        //TODO
-        //Implement caching like below
-        blockChainApi.getBlockChainStats(object : BlockChainNetworkListener<BlockChainStats>{
-            override fun onSuccess(response: BlockChainStats) {
-                response.toBlockChainPopularStats().run {
-                    blockChainResultListener onSuccess this
-                }
-            }
-
-            override fun onFailure(throwable: Throwable) {
-
-            }
-
-        })
+        publishStatsData(blockChainResultListener) {
+            blockChainResultListener onFailure it
+        }
     }
 
-    private val blockChainApi: BlockChainApi by lazy { BlockChainApi.get() }
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal var blockChainApi: BlockChainApi = BlockChainApi.get()
 
-    override fun getGraphData(blockChainResultListener: BlockChainResultListener<BlockChainGraph>) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal var blockChainPrefHelper = BlockChainPreferenceHelper.get()
 
-        publishChartData(blockChainResultListener) {
+    override fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>) {
+
+        publishChartData(resultListener) {
             // no-op on failure
         }
         blockChainApi.getChartData(object : BlockChainNetworkListener<BlockChainGraphPlot> {
             override fun onSuccess(response: BlockChainGraphPlot) {
                 response.toGraphData().run {
-                    BlockChainPreferenceHelper.get().setBlockChainGraph(this) // I am using the most simplest purpos but we could cache it to database
-                    publishChartData(blockChainResultListener){
-                        blockChainResultListener onFailure it
+                    BlockChainPreferenceHelper.get().setBlockChainGraph(this)
+                    publishChartData(resultListener) {
+                        resultListener onFailure it
                     }
                 }
             }
@@ -61,15 +60,29 @@ private object BlockChainDataRepositoryImpl : BlockChainDataRepository {
         })
     }
 
-    private fun publishChartData(adaptResultListener:  BlockChainResultListener<BlockChainGraph>, onFailure: (Throwable) -> Unit) {
-        BlockChainPreferenceHelper.get().getBlockChainGraph(object : BlockChainResultListener<BlockChainGraph> {
-            override fun onEvent(result: BigfootResult<BlockChainGraph>) {
-                when (result) {
-                    is OnSuccessBigfootResult -> adaptResultListener onSuccess result.result
-                    is OnFailureBigfootResult -> onFailure(result.throwable)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun publishStatsData(resultListener: BlockChainResultListener<BlockChainPopularStats>,onFailure: (Throwable) -> Unit) {
+        blockChainApi.getBlockChainStats(object : BlockChainNetworkListener<BlockChainStats> {
+            override fun onSuccess(response: BlockChainStats) {
+
+                response.toBlockChainPopularStats().run {
+                    resultListener onSuccess this
                 }
             }
 
+            override fun onFailure(throwable: Throwable) {
+                resultListener onFailure throwable
+            }
+
         })
+
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun publishChartData(resultListener: BlockChainResultListener<BlockChainGraph>, onFailure: (Throwable) -> Unit) {
+        val result = blockChainPrefHelper.getBlockChainGraph().observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io()).subscribe {
+            resultListener onSuccess it
+        }
     }
 }

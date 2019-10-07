@@ -2,22 +2,22 @@ package com.example.robitcoin.listener
 
 interface BlockChainResultListener<Result> {
 
-    fun onEvent(result: BigfootResult<Result>)
+    fun onEvent(result: RoBitcoinResult<Result>)
 
 }
 
 inline infix fun <reified Result> BlockChainResultListener<Result>.onSuccess(result: Result) {
-    onEvent(OnSuccessBigfootResult(result))
+    onEvent(OnSuccessRoBitcoinResult(result))
 }
 
 inline infix fun <reified Result> BlockChainResultListener<Result>.onFailure(result: Throwable) {
-    onEvent(OnFailureBigfootResult(result))
+    onEvent(OnFailureRoBitcoinResult(result))
 }
 
 @Suppress("unused")
 
-sealed class BigfootResult<Result>
+sealed class RoBitcoinResult<Result>
 
-data class OnSuccessBigfootResult<Result>(val result: Result) : BigfootResult<Result>()
+data class OnSuccessRoBitcoinResult<Result>(val result: Result) : RoBitcoinResult<Result>()
 
-data class OnFailureBigfootResult<Result>(val throwable: Throwable) : BigfootResult<Result>()
+data class OnFailureRoBitcoinResult<Result>(val throwable: Throwable) : RoBitcoinResult<Result>()

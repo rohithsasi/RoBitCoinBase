@@ -15,7 +15,7 @@
         android:layout_weight="20" />
 
     <TextView
-        style="@style/BigfootH1"
+        style="@style/BlockChainH1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black" />
@@ -27,7 +27,7 @@
 
 
     <TextView
-        style="@style/BigfootBody"
+        style="@style/BlockChainBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -39,7 +39,7 @@
 
 
     <TextView
-        style="@style/BigfootH1"
+        style="@style/BlockChainH1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -49,7 +49,7 @@
         android:layout_weight="16" />
 
     <TextView
-        style="@style/BigfootBody"
+        style="@style/BlockChainBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -59,7 +59,7 @@
         android:layout_weight="16" />
 
     <TextView
-        style="@style/BigfootBody"
+        style="@style/BlockChainBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -69,7 +69,7 @@
         android:layout_weight="16" />
 
     <TextView
-        style="@style/BigfootBody"
+        style="@style/BlockChainBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

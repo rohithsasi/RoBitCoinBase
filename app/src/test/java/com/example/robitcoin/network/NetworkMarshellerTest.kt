@@ -9,7 +9,7 @@ import org.junit.Assert.*
 
 class NetworkMarshellerTest {
 
-    val statsResponse: String = """
+    private val statsResponse: String = """
         {
         "market_price_usd": 610.036975,
         "hash_rate": 1.8410989266292908E9,
@@ -33,7 +33,7 @@ class NetworkMarshellerTest {
         "timestamp": 1474035340000
     }
 """
-    val pricingResponse: String = """
+    private val pricingResponse: String = """
     {
         "status": "OK",
         "name": "Transaction Rate",

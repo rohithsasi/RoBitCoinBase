@@ -5,6 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
+import io.reactivex.disposables.Disposable
 
 
 internal interface BlockChainRestClient {
@@ -15,7 +16,7 @@ internal interface BlockChainRestClient {
             return BlockChainRestClientImpl
         }
 
-        //TODO CALL THIS
+        //TODO
         fun reset() {
             BlockChainRestClientImpl.reset()
         }
@@ -30,7 +31,7 @@ private object BlockChainRestClientImpl : BlockChainRestClient {
         }
 
     private var identity: BlockChainServiceApi? = null
-
+    
     private fun getIdentityApi(): BlockChainServiceApi {
         return identity
                 ?: blockChainApiBuilder(BlockChainServiceApi::class.java).apply { identity = this }

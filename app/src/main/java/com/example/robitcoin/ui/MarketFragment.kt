@@ -1,6 +1,5 @@
 package com.example.robitcoin.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,6 @@ import androidx.fragment.app.Fragment
 import com.example.robitcoin.R
 
 class MarketFragment : Fragment() {
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

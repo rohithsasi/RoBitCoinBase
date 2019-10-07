@@ -27,31 +27,34 @@ private val BLOCK_CHAIN_SERVICE_API: BlockChainServiceApi by lazy {
     BlockChainRestClient.get().identityServiceServiceApi
 }
 
+private val BLOCK_CHAIN_DISPOSABLE: BlockChainServiceApi by lazy {
+    BlockChainRestClient.get().identityServiceServiceApi
+}
+
 private object BlockChainApiImpl : BlockChainApi {
     override fun getBlockChainStats(networkListener: BlockChainNetworkListener<BlockChainStats>) {
-        BLOCK_CHAIN_SERVICE_API.getBlockChainStats()
+       //todo destroy these
+        val disposable=  BLOCK_CHAIN_SERVICE_API.getBlockChainStats()
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe({
                 if (it.isSuccessful) {
                     it.body()?.let { it1 -> networkListener.onSuccess(it1) } ?: let {
-                        //TODO
-                        //throw error bruh!!!!!!
+                        networkListener.onFailure(Throwable("Netowork Failure"))
                     }
                 } else {
-                    //TODO
-                    //throw error bruh!!!!!!
+                    networkListener.onFailure(Throwable("Netowork Failure"))
                 }
 
             }, {
-                //TODO
-                //throw error bruh!!!!!!
+                networkListener.onFailure(it)
             })
     }
 
     override fun getChartData(
-        networListener: BlockChainNetworkListener<BlockChainGraphPlot>,
+        networkListener: BlockChainNetworkListener<BlockChainGraphPlot>,
         chartType: String
     ) {
-        BLOCK_CHAIN_SERVICE_API.getCharts(
+        //TODO destroy these
+        val disposable =BLOCK_CHAIN_SERVICE_API.getCharts(
             chartType,
             "6months",
             "8hours"
@@ -60,30 +63,15 @@ private object BlockChainApiImpl : BlockChainApi {
                 Log.d("BITCOIN  ", "Success ")
                 Log.d("BITCOIN  ", "Success")
                 Log.d("BITCOIN  ", "Success")
-                it.body()?.let { it1 -> networListener.onSuccess(it1) } ?: let {
-                    //TODO
-                    //throw error bruh!!!!!!
+                it.body()?.let { it1 -> networkListener.onSuccess(it1) } ?: let {
+                    networkListener.onFailure(Throwable("Netowork Failure"))
                 }
             } else {
-                //throw error bruh!!!!!!
-                //TODO
-                Log.d(" BITCOIN ERROR  ", "ERROR ${it.code()}")
+                networkListener.onFailure(Throwable("Netowork Failure"))
             }
         }, {
-            //TODO
-            //throw error bruh!!!!!!
-            Log.d(" BITCOIN ERROR  ", "${it.message}")
+            networkListener.onFailure(it)
         })
-    }
-
-    fun handleError() {
-        //TODO Extension function like bigfootpaireddeviceapi
-        //Unit testable
-    }
-
-    fun handleResponse() {
-        //TODO
-        //UnitTestable
     }
 }
 

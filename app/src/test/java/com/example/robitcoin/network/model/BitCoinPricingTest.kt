@@ -6,7 +6,7 @@ import org.junit.Test
 
 class BitCoinPricingTest {
 
-    val pricingResponse: String = """
+    private val pricingResponse: String = """
     {
         "status": "OK",
         "name": "Transaction Rate",
@@ -25,7 +25,7 @@ class BitCoinPricingTest {
         ]
     }
 """
-    val bitCoinPriceing = Gson().fromJson(pricingResponse, BlockChainGraphPlot::class.java)
+    private val bitCoinPriceing = Gson().fromJson(pricingResponse, BlockChainGraphPlot::class.java)
 
     @Test
     fun getName() {
@@ -49,10 +49,10 @@ class BitCoinPricingTest {
 
     @Test
     fun getValuers() {
-        assertEquals(bitCoinPriceing.values?.get(0)?.x,1.57035362E9)
-        assertEquals(bitCoinPriceing.values?.get(0)?.y,5667834.0)
-        assertEquals(bitCoinPriceing.values?.get(2)?.x,45464.0)
-        assertEquals(bitCoinPriceing.values.get(4)?.y,4.214097222222219E15)
-        assertEquals(bitCoinPriceing.values?.size,6)
+        assertEquals(bitCoinPriceing.values[2].x,45464.0)
+        assertEquals(bitCoinPriceing.values[0].x,1.57035362E9)
+        assertEquals(bitCoinPriceing.values[0].y,5667834.0)
+        assertEquals(bitCoinPriceing.values[4].y,4.214097222222219E15)
+        assertEquals(bitCoinPriceing.values.size,6)
     }
 }

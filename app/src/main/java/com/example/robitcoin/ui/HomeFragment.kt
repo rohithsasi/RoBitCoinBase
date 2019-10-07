@@ -1,6 +1,5 @@
 package com.example.robitcoin.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,42 +16,29 @@ import com.anychart.enums.Anchor
 import com.anychart.enums.MarkerType
 import com.anychart.enums.TooltipPositionMode
 import com.anychart.graphics.vector.Stroke
-import com.example.robitcoin.*
+import com.example.robitcoin.R
 import com.example.robitcoin.base.EventBasedFragment
 import com.example.robitcoin.model.BlockChainGraph
-import com.example.robitcoin.network.model.BlockChainGraphPlot
-import com.example.robitcoin.network.model.Values
-
 import com.example.robitcoin.presentation.ActionResult
 import com.example.robitcoin.presentation.BlockChainViewModel
-import com.example.robitcoin.presentation.FetchGraphDataActionResult
 import com.example.robitcoin.presentation.FetchBlockChainStatsActionResult
+import com.example.robitcoin.presentation.FetchGraphDataActionResult
+import com.example.robitcoin.utils.parseToDate
+import com.example.robitcoin.utils.round
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-/////Move location unit test
-fun Double.parseToDate1() : String{
-
-    val sdf = java.text.SimpleDateFormat("MMM dd")
-    val date = java.util.Date(this.toLong() * 1000)
-    return sdf.format(date)
-}
-
-fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
-
-
 class HomeFragment : EventBasedFragment() {
 
-    var result: BlockChainGraphPlot? = null
-    var output: List<Values> = mutableListOf()
-    val viewModel = BlockChainViewModel()
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
+    private val viewModel = BlockChainViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false).apply {
             (view as? ViewGroup)?.forEach { it.alpha = 0f }
             viewModel.fetchBlockChainGraphPlot()
@@ -60,9 +46,9 @@ class HomeFragment : EventBasedFragment() {
     }
 
 
-    fun updateGraph(graphData: BlockChainGraph) {
+    private fun updateGraph(graphData: BlockChainGraph) {
 
-        APIlib.getInstance().setActiveAnyChartView(any_chart_view_1);
+        APIlib.getInstance().setActiveAnyChartView(any_chart_view_1)
         val pie = AnyChart.line()
 
         val cartesian = AnyChart.line()
@@ -72,7 +58,6 @@ class HomeFragment : EventBasedFragment() {
         //cartesian.padding(10.0, 20.0, 5.0, 20.0)
         cartesian.crosshair().enabled(true)
         cartesian.crosshair().yLabel(true)
-            // TODO ystroke
             .yStroke(null as Stroke?, null, null, null as String?, null as String?)
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT)
         cartesian.title("Price Chart")
@@ -80,11 +65,11 @@ class HomeFragment : EventBasedFragment() {
         //cartesian.xAxis(0).labels().padding(5.0, 5.0, 5.0, 5.0)
         //cartesian.xAxis(0).labels().padding(10.0, 10.0, 10.0, 10.0)
 
-        cartesian.yAxis(0).labels().format("$ {%Value}");
+        cartesian.yAxis(0).labels().format("$ {%Value}")
 
         val seriesData = mutableListOf<DataEntry>()
         graphData.coordinates?.forEach {
-            seriesData.add(ValueDataEntry(it.x?.parseToDate1(), it.y))
+            seriesData.add(ValueDataEntry(it.x.parseToDate(), it.y))
         }
 
         val set = Set.instantiate()
@@ -97,7 +82,7 @@ class HomeFragment : EventBasedFragment() {
         val series1Mapping = set.mapAs("{ x: 'x', value: 'value' }")
 
         val series1 = cartesian.line(series1Mapping)
-            series1.name("Marker Price : ${graphData.coordinates?.last()?.y?.round(3)} USD")
+        series1.name("Marker Price : ${graphData.coordinates?.last()?.y?.round(3)} USD")
         series1.hovered().markers().enabled(true)
         series1.hovered().markers()
             .type(MarkerType.CIRCLE)
@@ -112,7 +97,7 @@ class HomeFragment : EventBasedFragment() {
 //        data.add(ValueDataEntry("Jake", 12000))
 //        data.add(ValueDataEntry("Peter", 18000))
 
-        pie.data(seriesData);
+        pie.data(seriesData)
         any_chart_view_1.setChart(cartesian)
 
     }
@@ -129,7 +114,7 @@ class HomeFragment : EventBasedFragment() {
 
                 }
 
-               //viewModel.fetchBlockChainStats()
+                //viewModel.fetchBlockChainStats()
             }
 
             is FetchBlockChainStatsActionResult -> {
