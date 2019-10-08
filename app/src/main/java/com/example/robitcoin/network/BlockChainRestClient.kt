@@ -14,11 +14,6 @@ internal interface BlockChainRestClient {
         fun get(): BlockChainRestClient {
             return BlockChainRestClientImpl
         }
-
-        //TODO
-        fun reset() {
-            BlockChainRestClientImpl.reset()
-        }
     }
 }
 
@@ -50,15 +45,7 @@ private object BlockChainRestClientImpl : BlockChainRestClient {
                 .create(clz)
     }
 
-    fun reset() {
-        identity = null
-        client = null
-    }
-
-    private var client: OkHttpClient? = null
-
     private fun getHttpClient(): OkHttpClient? {
-        //TODO
         return OkHttpClient.Builder().build()
     }
 

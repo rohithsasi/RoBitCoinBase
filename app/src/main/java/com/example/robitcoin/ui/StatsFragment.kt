@@ -41,7 +41,9 @@ class StatsFragment : EventBasedFragment() {
         }
     }
 
-
+    /**
+     * Subscription to EvenBus. Recieves messages of type Action result
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFetchBlockChainStatsResult(result: ActionResult) {
         when (result) {
@@ -56,7 +58,6 @@ class StatsFragment : EventBasedFragment() {
             }
         }
     }
-
 
     companion object {
 

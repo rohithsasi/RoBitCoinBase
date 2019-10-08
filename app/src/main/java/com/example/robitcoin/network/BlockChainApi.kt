@@ -22,11 +22,22 @@ interface BlockChainApi {
     }
 }
 
+/**
+ * Rest client
+ */
 private val BLOCK_CHAIN_SERVICE_API: BlockChainServiceApi by lazy {
     BlockChainRestClient.get().identityServiceServiceApi
 }
 
+/**
+ * Makes network requests to the block chain apis and returns a result as an observable. The result is communicated
+ * back to the repository layer (up the chain) using a network result listener (simple interface callbacks)
+ */
 private object BlockChainApiImpl : BlockChainApi {
+
+    /**
+     * Get stats api call
+     */
     override fun getBlockChainStats(networkListener: BlockChainNetworkListener<BlockChainStats>) {
        //todo destroy these
         val disposable=  BLOCK_CHAIN_SERVICE_API.getBlockChainStats()
@@ -44,6 +55,9 @@ private object BlockChainApiImpl : BlockChainApi {
             })
     }
 
+    /**
+     * Get chart data base on the chart type
+     */
     override fun getChartData(
         networkListener: BlockChainNetworkListener<BlockChainGraphPlot>,
         chartType: String

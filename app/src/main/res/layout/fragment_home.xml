@@ -3,7 +3,7 @@
     android:id="@+id/any_chart_view_1"
     android:layout_width="match_parent"
     android:layout_gravity="center"
-    android:layout_height="650dp"
+    android:layout_height="625dp"
     tools:layout_editor_absoluteX="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" />

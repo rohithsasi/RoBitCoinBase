@@ -18,6 +18,10 @@ private val sharedPreferences: SharedPreferences by lazy {
     )
 }
 
+/**
+ * Shared Prefs for market cap graph and market price graph
+ *
+ */
 interface BlockChainPreferenceHelper {
     fun getBlockChainMarketPrice(): Observable<BlockChainGraph>
     fun setBlockChainMarketPrice(graph: BlockChainGraph)
@@ -43,12 +47,18 @@ private object BlockChainPreferenceHelperImpl : BlockChainPreferenceHelper {
         }
     }
 
+    /**
+     * Cached MarketCap data is retreived in IO thread using Observable.defer()
+     */
     override fun setBlockChainMarketCap(graph: BlockChainGraph) {
         sharedPreferences.edit {
             putString(PREF_MARKET_CAP_DATA, Gson().toJson(graph))
         }
     }
 
+    /**
+     * Cached MarketPrice data is retreived in IO thread using Observable.defer()
+     */
     override fun getBlockChainMarketPrice(): Observable<BlockChainGraph> {
         return defer {
             return@defer sharedPreferences.getString(PREF_MARKET_PRICE_DATA, null)?.let { data ->
@@ -56,6 +66,7 @@ private object BlockChainPreferenceHelperImpl : BlockChainPreferenceHelper {
             } ?: return@defer BlockChainGraph()
         }
     }
+
 
     override fun setBlockChainMarketPrice(graph: BlockChainGraph) {
         sharedPreferences.edit {

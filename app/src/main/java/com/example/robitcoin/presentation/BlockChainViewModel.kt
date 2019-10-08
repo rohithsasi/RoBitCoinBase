@@ -9,19 +9,37 @@ import com.example.robitcoin.model.BlockChainPopularStats
 import com.example.robitcoin.model.BlockChainGraph
 import com.example.robitcoin.repository.BlockChainDataRepository
 
+
+/**
+ * The presentation layer that acquires the data from the lower repository layer and emmits the processed ui data
+ * to the Views with the help of an event bus. Now its called a view model as its the architecture is more representative
+ * of MVVVM as opposed to MVP. Just like MVVP this presentation layer hold no hard reference to the Ui layer or the botton networking layer
+ * This layer interact with network layer via a repository.
+ */
 class BlockChainViewModel {
 
+    /**
+     * The only reference this class hols is that of the repository.
+     */
     private val repository by lazy { BlockChainDataRepository.get() }
 
-    fun fetchBlockChainPricingGraph(chart: Chart){
-        getGraphData(chart)
+    /**
+     * Fetches the block market price and updates the corresponding fragment.
+     */
+    fun fetchBlockChainPricingGraph(){
+        getGraphData(Chart.MARKET_PRICE)
     }
 
-    fun fetchBlockChainMarketCapGraph(chart: Chart){
-        getGraphData(chart)
+    /**
+     * Fetches the block market cap and updates the corresponding fragment.
+     */
+    fun fetchBlockChainMarketCapGraph(){
+        getGraphData(Chart.MARKET_CAP)
     }
 
-
+    /**
+     * Fetches the block chain stats and updates the corresponding fragment.
+     */
     fun fetchBlockChainStats(){
         repository.getBlockChainStats(object :BlockChainResultListener<BlockChainPopularStats>{
             override fun onEvent(result: RoBitcoinResult<BlockChainPopularStats>) {
@@ -66,5 +84,5 @@ class BlockChainViewModel {
 
 enum class Chart(val type:String){
     MARKET_PRICE("market-price"),
-    MARKETY_CAP("market-cap")
+    MARKET_CAP("market-cap")
 }

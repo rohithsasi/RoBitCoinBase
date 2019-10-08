@@ -16,6 +16,12 @@ import com.example.robitcoin.preferences.BlockChainPreferenceHelper
 import com.example.robitcoin.presentation.Chart
 import io.reactivex.schedulers.Schedulers
 
+
+/**
+ * The data repository layer which proccesses the data that the ui expects caches(shared pref used for cache for now,
+ * could be a database as well) it and communicates the proccessed result after caching to the presentation layer using
+ * result listeners(simple callbacks).
+ */
 interface BlockChainDataRepository {
     fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>,chart: Chart)
     fun getBlockChainStats(blockChainResultListener: BlockChainResultListener<BlockChainPopularStats>)
@@ -41,6 +47,10 @@ internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal var blockChainPrefHelper = BlockChainPreferenceHelper.get()
 
+    
+    /**
+     * Chart data api call based on chart type.
+     */
     override fun getGraphData(resultListener: BlockChainResultListener<BlockChainGraph>,chart: Chart) {
 
         publishChartData(resultListener,chart) {
@@ -85,6 +95,12 @@ internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
 
     }
 
+    /**
+     * Caching the data. Caching is performed on and IO thread using rx. This is not much of an issue in
+     * simple application like this where netowork call are super light weigth. But the thought here
+     * save  huge chunks of data to database/local storage so that the ui can be rendered fast later.
+     * Retrievel of this local stoarge could still be on the heavier side so it is safer to do it on background thread.
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun publishChartData(resultListener: BlockChainResultListener<BlockChainGraph>, chart: Chart =Chart.MARKET_PRICE, onFailure: (Throwable) -> Unit) {
             val observable = if(chart ==Chart.MARKET_PRICE)blockChainPrefHelper.getBlockChainMarketPrice() 

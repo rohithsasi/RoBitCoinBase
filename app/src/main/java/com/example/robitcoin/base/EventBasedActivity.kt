@@ -8,6 +8,10 @@ import com.example.robitcoin.eventbus.EventBased
 import com.example.robitcoin.eventbus.EventBus
 import com.example.robitcoin.coroutine.MainCoroutineScope
 
+/**
+ *Base class such that all children would be registereed to even bus messages.
+ *
+ * */
 abstract class EventBasedActivity : AppCompatActivity(), EventBased {
 
     protected val uiScope = MainCoroutineScope()

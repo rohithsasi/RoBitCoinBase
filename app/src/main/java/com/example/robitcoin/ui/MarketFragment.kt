@@ -1,7 +1,6 @@
 package com.example.robitcoin.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +18,10 @@ import com.anychart.graphics.vector.Stroke
 import com.example.robitcoin.R
 import com.example.robitcoin.base.EventBasedFragment
 import com.example.robitcoin.model.BlockChainGraph
-import com.example.robitcoin.presentation.*
+import com.example.robitcoin.presentation.ActionResult
+import com.example.robitcoin.presentation.BlockChainViewModel
+import com.example.robitcoin.presentation.FetchGraphDataActionResult
 import com.example.robitcoin.utils.parseToDate
-import com.example.robitcoin.utils.round
 import kotlinx.android.synthetic.main.fragment_market.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -37,7 +37,7 @@ class MarketFragment : EventBasedFragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_market, container, false).apply {
             (view as? ViewGroup)?.forEach { it.alpha = 0f }
-            viewModel.fetchBlockChainMarketCapGraph(Chart.MARKETY_CAP)
+            viewModel.fetchBlockChainMarketCapGraph()
         }
     }
 
@@ -69,8 +69,11 @@ class MarketFragment : EventBasedFragment() {
         val series1Mapping = set.mapAs("{ x: 'x', value: 'value' }")
 
         val series1 = cartesian.line(series1Mapping)
-        series1.name("Today Market Cap : ${graphData.coordinates?.last()?.y?.round(2)?.div(1000000000
-        )} Billion")
+        series1.name(
+            "Today Market Cap : ${graphData.coordinates?.last()?.y?.div(
+                1000000000
+            )} Billion"
+        )
         series1.hovered().markers().enabled(true)
         series1.hovered().markers()
             .type(MarkerType.CIRCLE)
@@ -83,28 +86,21 @@ class MarketFragment : EventBasedFragment() {
             .offsetY(5.0)
 
         any_chart_view_market.setChart(cartesian)
-
     }
 
 
+    /**
+     * Subscription to Event Bus. Recieves messages of type Action result
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onFetchProfileResult(result: ActionResult) {
         when (result) {
             is FetchGraphDataActionResult -> {
-                Log.d("BITCOIN", "${result.graphPlot?.coordinates?.joinToString { "***" }}")
                 result.graphPlot?.let {
                     updateGraph(it)
                 } ?: let {
 
                 }
-
-                //viewModel.fetchBlockChainStats()
-            }
-
-            is FetchBlockChainStatsActionResult -> {
-                result.stats?.let {
-                }
-
             }
         }
     }
@@ -116,6 +112,3 @@ class MarketFragment : EventBasedFragment() {
         }
     }
 }
-
-
-//TODO CLEAN UP STATS NUMBERS

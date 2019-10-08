@@ -18,11 +18,13 @@ class SplashScreenActivity : EventBasedActivity() {
     }
 
     private fun launchDashboard() {
+        /**
+         * A simple usage of Kotlin co routines I wanted to demonstrate.The thought here is perform all onboarding operations
+         * ui or computational or netowork in co routine which takes care of threading w.r.t the Dispatchers. Recently with
+         * more and more usage of Kotlin I have been using coroutines more than rx java.
+         */
         uiScope.launch(Dispatchers.Main) {
             if (NetworkConnectionUtil.isOnline(this@SplashScreenActivity)) {
-                //this would be when I would ideally fetch everything onboarding related (access token, right user accoubnt)
-                // before launching the dashboard where I acrtuallt  interaction starts. Now I am running the spinned for a second
-                //to mock that experience.
                 delay(1_000)
                 DashboardActivity.navigateTo(this@SplashScreenActivity)
                 finish() //This need to finish
