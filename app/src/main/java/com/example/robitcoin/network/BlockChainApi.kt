@@ -1,6 +1,5 @@
 package com.example.robitcoin.network
 
-import android.util.Log
 import com.example.robitcoin.listener.BlockChainNetworkListener
 import com.example.robitcoin.network.model.BlockChainGraphPlot
 import com.example.robitcoin.network.model.BlockChainStats

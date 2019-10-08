@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.example.robitcoin.network.BlockChainRestClient
 import com.example.robitcoin.utils.StethoUtils
 
 class BlockChainApplication : Application(), LifecycleObserver {

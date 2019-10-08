@@ -22,7 +22,6 @@ import com.example.robitcoin.model.BlockChainGraph
 import com.example.robitcoin.presentation.*
 import com.example.robitcoin.utils.parseToDate
 import com.example.robitcoin.utils.round
-import com.example.robitcoin.utils.roundToBillion
 import kotlinx.android.synthetic.main.fragment_market.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -58,7 +57,7 @@ class MarketFragment : EventBasedFragment() {
 
         val seriesData = mutableListOf<DataEntry>()
         graphData.coordinates?.forEach {
-            seriesData.add(ValueDataEntry(it.x.parseToDate(), it.y.roundToBillion()))
+            seriesData.add(ValueDataEntry(it.x.parseToDate(), it.y.div(1000000000)))
         }
 
         val set = Set.instantiate()
@@ -70,7 +69,8 @@ class MarketFragment : EventBasedFragment() {
         val series1Mapping = set.mapAs("{ x: 'x', value: 'value' }")
 
         val series1 = cartesian.line(series1Mapping)
-        series1.name("Today Market Cap : ${graphData.coordinates?.last()?.y?.round(8)?.roundToBillion()} Billion")
+        series1.name("Today Market Cap : ${graphData.coordinates?.last()?.y?.round(2)?.div(1000000000
+        )} Billion")
         series1.hovered().markers().enabled(true)
         series1.hovered().markers()
             .type(MarkerType.CIRCLE)
@@ -116,3 +116,6 @@ class MarketFragment : EventBasedFragment() {
         }
     }
 }
+
+
+//TODO CLEAN UP STATS NUMBERS

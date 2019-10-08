@@ -87,7 +87,7 @@ internal object BlockChainDataRepositoryImpl : BlockChainDataRepository {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun publishChartData(resultListener: BlockChainResultListener<BlockChainGraph>, chart: Chart =Chart.MARKET_PRICE, onFailure: (Throwable) -> Unit) {
-            var observable = if(chart ==Chart.MARKET_PRICE)blockChainPrefHelper.getBlockChainMarketPrice() 
+            val observable = if(chart ==Chart.MARKET_PRICE)blockChainPrefHelper.getBlockChainMarketPrice() 
             else blockChainPrefHelper.getBlockChainMarketCap()
             
             val disposable =observable.observeOn(Schedulers.io())

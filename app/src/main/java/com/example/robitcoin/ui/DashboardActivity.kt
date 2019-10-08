@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment
 import com.example.robitcoin.R
 import com.example.robitcoin.base.EventBasedActivity
 import com.example.robitcoin.getString
+import com.example.robitcoin.utils.NetworkConnectionUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.navigation_view.*
@@ -38,31 +40,50 @@ class DashboardActivity : EventBasedActivity() {
     }
 
     private fun launchFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(
-            R.id.content, fragment,
-            MAIN_CONTENT_TAG
-        )
-            .commit()
+        if (NetworkConnectionUtil.isOnline(this@DashboardActivity)) {
+            supportFragmentManager.beginTransaction().replace(
+                R.id.content, fragment,
+                MAIN_CONTENT_TAG
+            )
+                .commit()
+
+        } else {
+            throwErrorDialog(fragment)
+        }
     }
+
+    private fun throwErrorDialog(fragment: Fragment) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Network Error")
+            .setMessage("Please check your WiFi or cellular connection and try again.")
+            .setPositiveButton("Retry") { dialog, which ->
+                launchFragment(fragment)
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 
     private val onBottomNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    bgf_toolbar.title = "Home"
+                    bgf_toolbar.title = R.string.bottom_nav_home.getString()
                     val homeFragment = HomeFragment.newFragment()
                     launchFragment(homeFragment)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_stats -> {
-                    bgf_toolbar.title = "Stats"
+                    bgf_toolbar.title = R.string.bottom_nav_stats.getString()
                     val songsFragment = StatsFragment.newFragment()
                     launchFragment(songsFragment)
                     // Toast.makeText(this, "Selected navigation item 1", Toast.LENGTH_SHORT).show()
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_store -> {
-                    bgf_toolbar.title = "Store"
+                    bgf_toolbar.title = R.string.bottom_nav_market.getString()
                     val songsFragment = MarketFragment.newFragment()
                     launchFragment(songsFragment)
                     return@OnNavigationItemSelectedListener true
@@ -76,20 +97,29 @@ class DashboardActivity : EventBasedActivity() {
             mDrawerLayout.closeDrawer(GravityCompat.START)
             when (item.itemId) {
                 R.id.nav_wallet -> {
-                   BlockChainWebViewActivity.navigateTo(this@DashboardActivity,BlockChainWebViewActivity.Companion.WebViewState.WALLET)
+                    BlockChainWebViewActivity.navigateTo(
+                        this@DashboardActivity,
+                        BlockChainWebViewActivity.Companion.WebViewState.WALLET
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
 
                 R.id.nav_lock_box -> {
-                    BlockChainWebViewActivity.navigateTo(this@DashboardActivity,BlockChainWebViewActivity.Companion.WebViewState.LOCK)
+                    BlockChainWebViewActivity.navigateTo(
+                        this@DashboardActivity,
+                        BlockChainWebViewActivity.Companion.WebViewState.LOCK
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_portal -> {
-                    BlockChainWebViewActivity.navigateTo(this@DashboardActivity,BlockChainWebViewActivity.Companion.WebViewState.LEARNING)
+                    BlockChainWebViewActivity.navigateTo(
+                        this@DashboardActivity,
+                        BlockChainWebViewActivity.Companion.WebViewState.LEARNING
+                    )
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id. nav_drawer_settings ->{
-                    Toast.makeText(this,"To be Implemeneted",Toast.LENGTH_SHORT).show()
+                R.id.nav_drawer_settings -> {
+                    Toast.makeText(this, "To be Implemeneted", Toast.LENGTH_SHORT).show()
                 }
             }
             false

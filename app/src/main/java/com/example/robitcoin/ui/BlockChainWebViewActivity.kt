@@ -38,10 +38,10 @@ class BlockChainWebViewActivity : AppCompatActivity() {
         supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
 
-            when (state) {
-                Companion.WebViewState.WALLET -> title = R.string.nav_drawer_wallet.getString()
-                Companion.WebViewState.LEARNING -> title = R.string.nav_drawer_portal.getString()
-                Companion.WebViewState.LOCK -> title = R.string.nav_drawer_lockbox.getString()
+            title =when (state) {
+                Companion.WebViewState.WALLET ->  R.string.nav_drawer_wallet.getString()
+                Companion.WebViewState.LEARNING -> R.string.nav_drawer_portal.getString()
+                Companion.WebViewState.LOCK -> R.string.nav_drawer_lockbox.getString()
             }
         }
     }

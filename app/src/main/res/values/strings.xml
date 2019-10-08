@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"BLOCKCHAIN"</string>
+    <string name="app_name">"Blockchain"</string>
     <string name="app_dashboard">Dashboard</string>
     <string name="app_wallet">Wallet</string>
     <string name="stats_title">Bitcoin Stats</string>
